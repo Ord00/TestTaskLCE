@@ -47,4 +47,13 @@ public class ClientAccountController {
     public ResponseEntity<List<ClientAccountResponse>> getAllClients() {
         return ResponseEntity.ok(clientAccountService.getAllClients());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClientAccountDetailedResponse> getClientAccount(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(clientAccountService.getClientAccount(id));
+        } catch (ClientAccountException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

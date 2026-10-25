@@ -49,4 +49,14 @@ public class ClientAccountService {
         log.info("Данные о всех клиентах получены");
         return responses;
     }
+
+    public ClientAccountDetailedResponse getClientAccount(Long id) {
+        log.info("Получение данных о клиенте с id = {}", id);
+        ClientAccountEntity entity = clientAccountRepository.findById(id);
+        if (entity == null) {
+            throw new ClientAccountException("Клиент не найден");
+        }
+        log.info("Получены данные о клиенте с id = {}", id);
+        return clientAccountMapper.toClientAccountDetailedResponse(entity);
+    }
 }
