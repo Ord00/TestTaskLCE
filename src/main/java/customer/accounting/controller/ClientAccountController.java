@@ -3,7 +3,7 @@ package customer.accounting.controller;
 import customer.accounting.ClientAccountRequest;
 import customer.accounting.ClientAccountResponse;
 import customer.accounting.service.ClientAccountService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/clients")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ClientAccountController {
     private final ClientAccountService clientAccountService;
 
@@ -23,5 +23,4 @@ public class ClientAccountController {
         ClientAccountResponse response = clientAccountService.createClientAccount(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-
 }
