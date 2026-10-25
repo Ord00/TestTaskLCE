@@ -22,12 +22,12 @@ public class ClientAccountService {
     private final ClientAccountMapper clientAccountMapper;
 
     public ClientAccountResponse createClientAccount(ClientAccountRequest request) {
-        log.info("Сохранение заявки c fullName = {} и gender = {}",
+        log.info("Сохранение клиента c fullName = {} и gender = {}",
                 request.getFullName(), request.getGender());
         ClientAccountEntity entity = clientAccountMapper.toEntity(request);
         entity.setStatus("ACTIVE");
         clientAccountRepository.save(entity);
-        log.info("Заявка c fullName = {} и gender = {} сохранена с id = {}",
+        log.info("Клиент c fullName = {} и gender = {} сохранена с id = {}",
                 request.getFullName(), request.getGender(), entity.getId());
         return clientAccountMapper.toClientAccountResponse(entity);
     }
