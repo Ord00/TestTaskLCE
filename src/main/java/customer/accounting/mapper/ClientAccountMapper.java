@@ -1,8 +1,8 @@
 package customer.accounting.mapper;
 
-import customer.accounting.ClientAccountDetailedResponse;
-import customer.accounting.ClientAccountRequest;
-import customer.accounting.ClientAccountResponse;
+import customer.accounting.dto.ClientAccountDetailedResponse;
+import customer.accounting.dto.ClientAccountRequest;
+import customer.accounting.dto.ClientAccountResponse;
 import customer.accounting.entity.ClientAccountEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

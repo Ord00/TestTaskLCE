@@ -4,7 +4,7 @@ info:
   description: Сервис учета клиентов компании "Лига Цифровой Экономики"
   version: 1.0.0
 servers:
-  - url: http://localhost:8081
+  - url: http://localhost:8080
 paths:
   /api/clients:
     post:

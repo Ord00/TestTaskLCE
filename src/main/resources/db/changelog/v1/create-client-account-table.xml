@@ -6,7 +6,7 @@
 
     <changeSet id="create-client-account-table" author="Ord00">
         <createTable tableName="client_account">
-            <column name="id" type="bigint">
+            <column name="id" type="bigserial">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="full_name" type="text">
