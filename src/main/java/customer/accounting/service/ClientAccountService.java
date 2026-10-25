@@ -28,4 +28,13 @@ public class ClientAccountService {
         log.info("Данные клиента с id = {} обновлены", id);
         return clientAccountMapper.toClientAccountResponse(updatedEntity);
     }
+
+    public void deleteClientAccount(Long id) {
+        log.info("Удаление данных клиента с id = {}", id);
+        if (!clientAccountRepository.existsById(id)) {
+            throw new ClientAccountException("Клиент не найден");
+        }
+        clientAccountRepository.deleteById(id);
+        log.info("Данные клиента с id = {} удалены", id);
+    }
 }

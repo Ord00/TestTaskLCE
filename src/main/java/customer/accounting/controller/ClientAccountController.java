@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,6 +25,16 @@ public class ClientAccountController {
             @RequestBody ClientAccountRequest request) {
         try {
             return ResponseEntity.ok(clientAccountService.updateClientAccount(id, request));
+        } catch (ClientAccountException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteClientAccount(@PathVariable Long id) {
+        try {
+            clientAccountService.deleteClientAccount(id);
+            return ResponseEntity.noContent().build();
         } catch (ClientAccountException e) {
             return ResponseEntity.notFound().build();
         }
