@@ -3,6 +3,7 @@ package customer.accounting.controller;
 import customer.accounting.dto.ClientAccountDetailedResponse;
 import customer.accounting.dto.ClientAccountRequest;
 import customer.accounting.dto.ClientAccountResponse;
+import customer.accounting.dto.ClientAccountUpdateRequest;
 import customer.accounting.exception.ClientAccountException;
 import customer.accounting.service.ClientAccountService;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +50,7 @@ public class ClientAccountController {
     @PutMapping("/{id}")
     public ResponseEntity<ClientAccountResponse> updateClientAccount(
             @PathVariable Long id,
-            @RequestBody ClientAccountRequest request) {
+            @RequestBody ClientAccountUpdateRequest request) {
         try {
             return ResponseEntity.ok(clientAccountService.updateClientAccount(id, request));
         } catch (ClientAccountException e) {

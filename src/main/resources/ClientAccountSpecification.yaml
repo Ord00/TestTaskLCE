@@ -120,6 +120,17 @@ components:
         gender:
           type: string
           example: М
+    ClientAccountUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/ClientAccountRequest'
+        - type: object
+          required:
+            - status
+          properties:
+            status:
+              type: string
+              enum: [ACTIVE, INACTIVE]
+              example: INACTIVE
     ClientAccountResponse:
       type: object
       required:

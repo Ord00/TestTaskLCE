@@ -3,6 +3,7 @@ package customer.accounting.service;
 import customer.accounting.dto.ClientAccountDetailedResponse;
 import customer.accounting.dto.ClientAccountRequest;
 import customer.accounting.dto.ClientAccountResponse;
+import customer.accounting.dto.ClientAccountUpdateRequest;
 import customer.accounting.entity.ClientAccountEntity;
 import customer.accounting.exception.ClientAccountException;
 import customer.accounting.mapper.ClientAccountMapper;
@@ -12,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -44,24 +44,20 @@ public class ClientAccountService {
 
     public ClientAccountDetailedResponse getClientAccount(Long id) {
         log.info("Получение данных о клиенте с id = {}", id);
-        Optional<ClientAccountEntity> entity = clientAccountRepository.findById(id);
-        if (entity.isEmpty()) {
-            throw new ClientAccountException("Клиент не найден");
-        }
+        ClientAccountEntity entity = clientAccountRepository.findById(id)
+                .orElseThrow(() -> new ClientAccountException("Клиент не найден"));
         log.info("Получены данные о клиенте с id = {}", id);
-        return clientAccountMapper.toClientAccountDetailedResponse(entity.get());
+        return clientAccountMapper.toClientAccountDetailedResponse(entity);
     }
 
-    public ClientAccountResponse updateClientAccount(Long id, ClientAccountRequest request) {
+    public ClientAccountResponse updateClientAccount(Long id, ClientAccountUpdateRequest request) {
         log.info("Обновление данных клиента с id = {}", id);
-        if (!clientAccountRepository.existsById(id)) {
-            throw new ClientAccountException("Клиент не найден");
-        }
-        ClientAccountEntity entity = clientAccountMapper.toEntity(request);
-        entity.setId(id);
-        ClientAccountEntity updatedEntity = clientAccountRepository.save(entity);
+        ClientAccountEntity entity = clientAccountRepository.findById(id)
+                .orElseThrow(() -> new ClientAccountException("Клиент не найден"));
+        clientAccountMapper.updateEntityFromRequest(request, entity);
+        clientAccountRepository.save(entity);
         log.info("Данные клиента с id = {} обновлены", id);
-        return clientAccountMapper.toClientAccountResponse(updatedEntity);
+        return clientAccountMapper.toClientAccountResponse(entity);
     }
 
     public void deleteClientAccount(Long id) {
