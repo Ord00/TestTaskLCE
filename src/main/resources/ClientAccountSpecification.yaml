@@ -1,0 +1,170 @@
+openapi: 3.0.3
+info:
+  title: ClientAccountService
+  description: Сервис учета клиентов компании "Лига Цифровой Экономики"
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/clients:
+    post:
+      operationId: createClient
+      summary: Создание записи о клиенте
+      tags:
+        - ClientAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientAccountRequest"
+      responses:
+        '201':
+          description: Успешное создание записи о клиенте
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientAccountResponse"
+    get:
+      operationId: getAllClients
+      summary: Получение списка всех пользователей
+      tags:
+        - ClientAccount
+      responses:
+        '200':
+          description: Успешное получение данных о клиентах
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ClientAccountResponse"
+  /api/clients/{id}:
+    get:
+      operationId: getClient
+      summary: Получение клиента по идентификатору
+      tags:
+        - ClientAccount
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Успешное получение данных о клиенте
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientAccountDetailedResponse"
+        '404':
+          description: Клиент не найден
+    put:
+      operationId: updateClient
+      summary: Обновление данных клиента по идентификатору
+      tags:
+        - ClientAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientAccountRequest"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Успешное обьновление данных о клиенте
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientAccountResponse"
+        '404':
+          description: Клиент не найден
+    delete:
+      operationId: deleteClient
+      summary: Удаление клиента по идентификатору
+      tags:
+        - ClientAccount
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Успешное удаление данных о клиенте
+        '404':
+          description: Клиент не найден
+
+components:
+  schemas:
+    ClientAccountRequest:
+      type: object
+      required:
+        - fullName
+        - gender
+      properties:
+        fullName:
+          type: string
+          example: Иванов Иван
+        gender:
+          type: string
+          example: М
+    ClientAccountUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/ClientAccountRequest'
+        - type: object
+          required:
+            - status
+          properties:
+            status:
+              type: string
+              enum: [ACTIVE, INACTIVE]
+              example: INACTIVE
+    ClientAccountResponse:
+      type: object
+      required:
+        - id
+        - fullName
+        - gender
+        - status
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 12345
+        fullName:
+          type: string
+          example: Иванов Иван
+        gender:
+          type: string
+          example: М
+        status:
+          type: string
+          enum: [ACTIVE, INACTIVE]
+    ClientAccountDetailedResponse:
+      allOf:
+        - $ref: '#/components/schemas/ClientAccountResponse'
+        - type: object
+          required:
+            - createDttm
+            - modifyDttm
+          properties:
+            createDttm:
+              type: string
+              format: date-time
+              example: 2026-09-25T12:00:00Z
+            modifyDttm:
+              type: string
+              format: date-time
+              example: 2026-10-25T15:44:33Z
