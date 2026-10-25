@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -36,5 +38,15 @@ public class ClientAccountService {
         }
         clientAccountRepository.deleteById(id);
         log.info("Данные клиента с id = {} удалены", id);
+    }
+
+    public List<ClientAccountResponse> getAllClients() {
+        log.info("Получение данных о всех клиентах");
+        List<ClientAccountResponse> responses = clientAccountRepository.findAll()
+                .stream()
+                .map(clientAccountMapper::toClientAccountResponse)
+                .toList();
+        log.info("Данные о всех клиентах получены");
+        return responses;
     }
 }
