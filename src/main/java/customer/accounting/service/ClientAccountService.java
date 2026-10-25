@@ -59,4 +59,13 @@ public class ClientAccountService {
         log.info("Получены данные о клиенте с id = {}", id);
         return clientAccountMapper.toClientAccountDetailedResponse(entity);
     }
+
+    public ClientAccountResponse createClientAccount(ClientAccountRequest request) {
+        log.info("Сохранение заявки c fullName = {} и gender = {}",
+                request.getFullName(), request.getGender());
+        ClientAccountEntity entity = clientAccountRepository.save(clientAccountMapper.toEntity(request));
+        log.info("Заявка c fullName = {} и gender = {} сохранена с id = {}",
+                request.getFullName(), request.getGender(), entity.getId());
+        return clientAccountMapper.toClientAccountResponse(entity);
+    }
 }

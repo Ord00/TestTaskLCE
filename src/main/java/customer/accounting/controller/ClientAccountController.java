@@ -56,4 +56,11 @@ public class ClientAccountController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping
+    public ResponseEntity<ClientAccountResponse> createClientAccount(
+            @RequestBody ClientAccountRequest request) {
+        ClientAccountResponse response = clientAccountService.createClientAccount(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
 }
